@@ -381,7 +381,7 @@ class HomeMatchesScreen extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Row(
-                        mainAxisAlignment: Main.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _navItem(Icons.home_outlined, 'Home', 0),
                           _navItem(Icons.favorite_border, 'Interests', 1),

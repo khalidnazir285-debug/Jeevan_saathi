@@ -36,7 +36,10 @@ class PrivacySecurityScreen extends StatelessWidget {
                     FadeSlide(
                       index: 1,
                       child: _switchTile(
-                          Icons.phone_locked_outlined, 'Hide Phone Number', c.hidePhone),
+                        Icons.phone_locked_outlined,
+                        'Hide Phone Number',
+                        c.hidePhone,
+                      ),
                     ),
                     FadeSlide(
                       index: 2,
@@ -44,7 +47,11 @@ class PrivacySecurityScreen extends StatelessWidget {
                         icon: Icons.photo_outlined,
                         label: 'Photo Visibility',
                         value: c.photoVisibility,
-                        options: const ['Everyone', 'Only Matches', 'After Interest Accepted'],
+                        options: const [
+                          'Everyone',
+                          'Only Matches',
+                          'After Interest Accepted',
+                        ],
                       ),
                     ),
                     FadeSlide(
@@ -62,17 +69,27 @@ class PrivacySecurityScreen extends StatelessWidget {
                     FadeSlide(
                       index: 6,
                       child: _switchTile(
-                          Icons.security, 'Two-Step Verification', c.twoStep),
+                        Icons.security,
+                        'Two-Step Verification',
+                        c.twoStep,
+                      ),
                     ),
                     FadeSlide(
                       index: 7,
-                      child: _navTile(Icons.manage_accounts_outlined, 'Manage Account', () {}),
+                      child: _navTile(
+                        Icons.manage_accounts_outlined,
+                        'Manage Account',
+                        () {},
+                      ),
                     ),
                     FadeSlide(
                       index: 8,
                       child: _navTile(
-                          Icons.delete_outline, 'Delete Account', c.deleteAccount,
-                          danger: true),
+                        Icons.delete_outline,
+                        'Delete Account',
+                        c.deleteAccount,
+                        danger: true,
+                      ),
                     ),
                   ],
                 ),
@@ -92,14 +109,16 @@ class PrivacySecurityScreen extends StatelessWidget {
           _iconBox(icon),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(title,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+            child: Text(
+              title,
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            ),
           ),
           Obx(() => Switch(
                 value: value.value,
                 onChanged: (v) => value.value = v,
-                activeColor: JT.gold,
-                activeTrackColor: JT.gold.withOpacity(0.35),
+                activeThumbColor: JT.gold,
+                activeTrackColor: JT.gold.withValues(alpha: 0.35),
                 inactiveTrackColor: Colors.white12,
               )),
         ],
@@ -118,10 +137,13 @@ class PrivacySecurityScreen extends StatelessWidget {
             _iconBox(icon, danger: danger),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(title,
-                  style: TextStyle(
-                      color: danger ? Colors.redAccent : Colors.white,
-                      fontWeight: FontWeight.w600)),
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: danger ? Colors.redAccent : Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             const Icon(Icons.chevron_right, color: JT.muted),
           ],
@@ -136,7 +158,7 @@ class PrivacySecurityScreen extends StatelessWidget {
       width: 36,
       height: 36,
       decoration: BoxDecoration(
-        color: col.withOpacity(0.12),
+        color: col.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Icon(icon, color: col, size: 18),

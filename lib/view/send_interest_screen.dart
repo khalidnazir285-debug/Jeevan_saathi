@@ -31,18 +31,23 @@ class SendInterestScreen extends StatelessWidget {
                     const FadeSlide(
                       index: 1,
                       child: Center(
-                        child: Text('Ayesha Khan',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800)),
+                        child: Text(
+                          'Ayesha Khan',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 18),
                     const FadeSlide(
                       index: 2,
-                      child: Text('Quick Messages',
-                          style: TextStyle(color: JT.gold, fontWeight: FontWeight.w700)),
+                      child: Text(
+                        'Quick Messages',
+                        style: TextStyle(color: JT.gold, fontWeight: FontWeight.w700),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     for (int i = 0; i < c.templates.length; i++)
@@ -60,19 +65,31 @@ class SendInterestScreen extends StatelessWidget {
                                 color: JT.card,
                                 borderRadius: BorderRadius.circular(14),
                                 border: Border.all(
-                                    color: sel ? JT.gold : JT.cardBorder,
-                                    width: sel ? 2 : 1),
+                                  color: sel ? JT.gold : JT.cardBorder,
+                                  width: sel ? 2 : 1,
+                                ),
                                 boxShadow: sel
-                                    ? [BoxShadow(color: JT.gold.withOpacity(0.25), blurRadius: 12)]
+                                    ? [
+                                        BoxShadow(
+                                          color: JT.gold.withValues(alpha: 0.25),
+                                          blurRadius: 12,
+                                        ),
+                                      ]
                                     : [],
                               ),
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: Text(c.templates[i],
-                                          style: const TextStyle(color: Colors.white))),
-                                  Icon(sel ? Icons.check_circle : Icons.circle_outlined,
-                                      color: sel ? JT.gold : JT.muted, size: 20),
+                                    child: Text(
+                                      c.templates[i],
+                                      style: const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  Icon(
+                                    sel ? Icons.check_circle : Icons.circle_outlined,
+                                    color: sel ? JT.gold : JT.muted,
+                                    size: 20,
+                                  ),
                                 ],
                               ),
                             ),

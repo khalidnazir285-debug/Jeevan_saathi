@@ -45,7 +45,7 @@ class NotificationsScreen extends StatelessWidget {
                               width: 42,
                               height: 42,
                               decoration: BoxDecoration(
-                                color: JT.gold.withOpacity(0.12),
+                                color: JT.gold.withValues(alpha: 0.12),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(_icon(list[i][1]), color: JT.gold, size: 20),

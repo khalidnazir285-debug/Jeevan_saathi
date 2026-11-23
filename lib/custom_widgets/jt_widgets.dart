@@ -175,7 +175,7 @@ class _JtGoldButtonState extends State<JtGoldButton> {
             borderRadius: BorderRadius.circular(14),
             boxShadow: [
               BoxShadow(
-                color: JT.gold.withOpacity(0.35),
+                color: JT.gold.withValues(alpha: 0.35),
                 blurRadius: 14,
                 offset: const Offset(0, 4),
               ),
@@ -234,7 +234,7 @@ class JtSelectTile extends StatelessWidget {
                   height: 4,
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
-                    color: JT.gold.withOpacity(0.5),
+                    color: JT.gold.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -277,7 +277,7 @@ class JtSelectTile extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: JT.gold.withOpacity(0.12),
+                  color: JT.gold.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(icon, color: JT.gold, size: 18),
@@ -359,7 +359,7 @@ class JtRangeCard extends StatelessWidget {
                   activeTrackColor: JT.gold,
                   inactiveTrackColor: Colors.white12,
                   thumbColor: JT.gold,
-                  overlayColor: JT.gold.withOpacity(0.15),
+                  overlayColor: JT.gold.withValues(alpha: 0.15),
                   trackHeight: 3,
                 ),
                 child: RangeSlider(
