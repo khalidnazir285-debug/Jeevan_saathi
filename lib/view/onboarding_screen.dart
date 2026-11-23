@@ -110,12 +110,9 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(
                     width: imageSize,
                     height: imageSize,
-                    child: Transform.rotate(
-                      angle: 0.08,
-                      child: RotatingImageCard(
-                        imagePath: item.image,
-                        tag: item.tag,
-                      ),
+                    child: FloatingImageCard(
+                      imagePath: item.image,
+                      tag: item.tag,
                     ),
                   ),
                   const SizedBox(height: 26),
@@ -174,38 +171,48 @@ class OnboardingScreen extends StatelessWidget {
   }
 }
 
-class RotatingImageCard extends StatefulWidget {
+class FloatingImageCard extends StatefulWidget {
   final String imagePath;
   final String? tag;
 
-  const RotatingImageCard({
+  const FloatingImageCard({
     super.key,
     required this.imagePath,
     this.tag,
   });
 
   @override
-  State<RotatingImageCard> createState() => _RotatingImageCardState();
+  State<FloatingImageCard> createState() => _FloatingImageCardState();
 }
 
-class _RotatingImageCardState extends State<RotatingImageCard>
+class _FloatingImageCardState extends State<FloatingImageCard>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  late Animation<double> animation;
 
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 12),
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    animation = Tween<double>(begin: -6.0, end: 6.0).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeInOut),
     );
-    controller.repeat();
   }
 
   @override
   Widget build(BuildContext context) {
-    return RotationTransition(
-      turns: controller,
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, animation.value),
+          child: child,
+        );
+      },
       child: GoldImageCard(
         imagePath: widget.imagePath,
         tag: widget.tag,
