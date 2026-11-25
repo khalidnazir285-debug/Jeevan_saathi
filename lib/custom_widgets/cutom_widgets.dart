@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jeevan_saathi/custom_widgets/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-// 1. Green background (SafeArea + chaudi screen par beech mein 480 tak)
+// 1. Green background
 class GreenBackground extends StatelessWidget {
   final Widget child;
   const GreenBackground({super.key, required this.child});
@@ -33,7 +33,7 @@ class GreenBackground extends StatelessWidget {
   }
 }
 
-// 2. Gol gold kinare wala icon button (back)
+// 2. Gol gold kinare wala icon button
 class GoldCircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
@@ -61,7 +61,7 @@ class GoldCircleIconButton extends StatelessWidget {
   }
 }
 
-// 3. App ka naam (phool ke saath)
+// 3. App Title
 class AppTitle extends StatelessWidget {
   final String text;
   const AppTitle(this.text, {super.key});
@@ -111,11 +111,12 @@ class SkipButton extends StatelessWidget {
   }
 }
 
-// 5. Gold Circular Image Card: Images clip in a neat circle with gold border frame
-class GoldImageCard extends StatelessWidget {
+// 5. Gold Circular Image Card with Continuous 360 Rotation Animation
+class GoldImageCard extends StatefulWidget {
   final String imagePath;
   final String? tag;
   final bool showLine;
+
   const GoldImageCard({
     super.key,
     required this.imagePath,
@@ -124,42 +125,68 @@ class GoldImageCard extends StatelessWidget {
   });
 
   @override
+  State<GoldImageCard> createState() => _GoldImageCardState();
+}
+
+class _GoldImageCardState extends State<GoldImageCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _rotationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 14),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       fit: StackFit.expand,
       children: [
-        // Circular Image Frame
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: gold, width: 3),
-            boxShadow: [
-              BoxShadow(
-                color: gold.withValues(alpha: 0.30),
-                blurRadius: 28,
-                spreadRadius: 2,
+        // Continuously Rotating Circular Image Frame
+        RotationTransition(
+          turns: _rotationController,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: gold, width: 3),
+              boxShadow: [
+                BoxShadow(
+                  color: gold.withValues(alpha: 0.30),
+                  blurRadius: 28,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                widget.imagePath,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stack) {
+                  return Container(
+                    color: const Color(0xFF1B2A20),
+                    child: const Center(
+                      child: Icon(Icons.person, color: gold, size: 54),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
-          child: ClipOval(
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stack) {
-                return Container(
-                  color: const Color(0xFF1B2A20),
-                  child: const Center(
-                    child: Icon(Icons.person, color: gold, size: 54),
-                  ),
-                );
-              },
             ),
           ),
         ),
 
         // Tag (e.g. FINAL STEP)
-        if (tag != null)
+        if (widget.tag != null)
           Align(
             alignment: Alignment.topCenter,
             child: Transform.translate(
@@ -184,7 +211,7 @@ class GoldImageCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      tag!,
+                      widget.tag!,
                       style: GoogleFonts.poppins(
                         color: gold,
                         fontSize: 10,
@@ -218,7 +245,7 @@ class GoldImageCard extends StatelessWidget {
   }
 }
 
-// 6. Heading: pehla hissa cream, highlight gold
+// 6. Heading
 class HeadingText extends StatelessWidget {
   final String heading;
   final String highlight;

@@ -110,7 +110,7 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(
                     width: imageSize,
                     height: imageSize,
-                    child: FloatingImageCard(
+                    child: RotatingImageCard(
                       imagePath: item.image,
                       tag: item.tag,
                     ),
@@ -171,58 +171,21 @@ class OnboardingScreen extends StatelessWidget {
   }
 }
 
-class FloatingImageCard extends StatefulWidget {
+class RotatingImageCard extends StatelessWidget {
   final String imagePath;
   final String? tag;
 
-  const FloatingImageCard({
+  const RotatingImageCard({
     super.key,
     required this.imagePath,
     this.tag,
   });
 
   @override
-  State<FloatingImageCard> createState() => _FloatingImageCardState();
-}
-
-class _FloatingImageCardState extends State<FloatingImageCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<double> animation;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
-
-    animation = Tween<double>(begin: -6.0, end: 6.0).animate(
-      CurvedAnimation(parent: controller, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, animation.value),
-          child: child,
-        );
-      },
-      child: GoldImageCard(
-        imagePath: widget.imagePath,
-        tag: widget.tag,
-      ),
+    return GoldImageCard(
+      imagePath: imagePath,
+      tag: tag,
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }
