@@ -13,7 +13,7 @@ class ProfileDetailsScreen extends StatelessWidget {
   final String avatarUrl;
   final bool isFemale;
 
-  ProfileDetailsScreen({
+  const ProfileDetailsScreen({
     super.key,
     this.name = 'Ayesha Khan',
     this.info = '25 yrs • MBBS Doctor',
@@ -60,15 +60,18 @@ class ProfileDetailsScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               TweenAnimationBuilder<double>(
-                                tween: Tween(begin: 0.6, end: 1),
-                                duration: const Duration(milliseconds: 700),
-                                curve: Curves.elasticOut,
-                                builder: (_, v, w) =>
-                                    Transform.scale(scale: v, child: w),
+                                tween: Tween(begin: 0.8, end: 1.0),
+                                duration: const Duration(milliseconds: 350),
+                                curve: Curves.fastOutSlowIn,
+                                builder: (_, v, w) => Transform.scale(
+                                  scale: v,
+                                  child: w,
+                                ),
                                 child: JtAvatar(
                                   radius: 54,
                                   imageUrl: avatarUrl,
                                   isFemale: isFemale,
+                                  heroTag: 'profile_avatar_$name',
                                 ),
                               ),
                               const SizedBox(height: 12),

@@ -53,6 +53,7 @@ class HomeMatchesScreen extends StatelessWidget {
                                   ? cProfile.userAvatar.value
                                   : null,
                               isFemale: cProfile.gender.value == 'Female',
+                              heroTag: 'user_main_avatar',
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -122,8 +123,8 @@ class HomeMatchesScreen extends StatelessWidget {
                                 const SizedBox(height: 10),
                                 TweenAnimationBuilder<double>(
                                   tween: Tween(begin: 0, end: c.profileComplete),
-                                  duration: const Duration(milliseconds: 1000),
-                                  curve: Curves.easeOut,
+                                  duration: const Duration(milliseconds: 600),
+                                  curve: Curves.fastOutSlowIn,
                                   builder: (_, v, _) => ClipRRect(
                                     borderRadius: BorderRadius.circular(4),
                                     child: LinearProgressIndicator(
@@ -193,7 +194,8 @@ class HomeMatchesScreen extends StatelessWidget {
                                 return GestureDetector(
                                   onTap: () => c.filterIndex.value = i,
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 250),
+                                    duration: const Duration(milliseconds: 180),
+                                    curve: Curves.fastOutSlowIn,
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
@@ -273,6 +275,7 @@ class HomeMatchesScreen extends StatelessWidget {
                                               radius: 28,
                                               imageUrl: list[i].avatarUrl,
                                               isFemale: list[i].isFemale,
+                                              heroTag: 'profile_avatar_${list[i].name}',
                                             ),
                                             const SizedBox(width: 12),
                                             Expanded(
@@ -408,7 +411,8 @@ class HomeMatchesScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: AnimatedScale(
         scale: sel ? 1.12 : 1,
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.fastOutSlowIn,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -12,7 +12,7 @@ class JtHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeSlide(
-      dy: -16,
+      dy: -12,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Row(
@@ -60,6 +60,7 @@ class JtAvatar extends StatelessWidget {
   final String? imageUrl;
   final String? imagePath;
   final bool isFemale;
+  final String? heroTag;
 
   const JtAvatar({
     super.key,
@@ -68,48 +69,41 @@ class JtAvatar extends StatelessWidget {
     this.imageUrl,
     this.imagePath,
     this.isFemale = false,
+    this.heroTag,
   });
 
   @override
   Widget build(BuildContext context) {
     Widget childWidget;
+    final src = imagePath ?? imageUrl;
 
-    if (imagePath != null && imagePath!.isNotEmpty) {
-      childWidget = ClipOval(
-        child: Image.asset(
-          imagePath!,
-          width: radius * 2,
-          height: radius * 2,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) {
-            if (imageUrl != null && imageUrl!.isNotEmpty) {
-              return Image.network(
-                imageUrl!,
-                width: radius * 2,
-                height: radius * 2,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _defaultIcon(),
-              );
-            }
-            return _defaultIcon();
-          },
-        ),
-      );
-    } else if (imageUrl != null && imageUrl!.isNotEmpty) {
-      childWidget = ClipOval(
-        child: Image.network(
-          imageUrl!,
-          width: radius * 2,
-          height: radius * 2,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) => _defaultIcon(),
-        ),
-      );
+    if (src != null && src.isNotEmpty) {
+      if (src.startsWith('http')) {
+        childWidget = ClipOval(
+          child: Image.network(
+            src,
+            width: radius * 2,
+            height: radius * 2,
+            fit: BoxFit.cover,
+            errorBuilder: (_, _, _) => _defaultIcon(),
+          ),
+        );
+      } else {
+        childWidget = ClipOval(
+          child: Image.asset(
+            src,
+            width: radius * 2,
+            height: radius * 2,
+            fit: BoxFit.cover,
+            errorBuilder: (_, _, _) => _defaultIcon(),
+          ),
+        );
+      }
     } else {
       childWidget = _defaultIcon();
     }
 
-    return Container(
+    final avatarContainer = Container(
       padding: const EdgeInsets.all(2.5),
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
@@ -121,6 +115,15 @@ class JtAvatar extends StatelessWidget {
         child: childWidget,
       ),
     );
+
+    if (heroTag != null && heroTag!.isNotEmpty) {
+      return Hero(
+        tag: heroTag!,
+        child: avatarContainer,
+      );
+    }
+
+    return avatarContainer;
   }
 
   Widget _defaultIcon() {
@@ -175,7 +178,8 @@ class JtTabs extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => onChanged(i),
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.fastOutSlowIn,
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(

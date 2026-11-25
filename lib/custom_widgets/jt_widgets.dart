@@ -14,17 +14,17 @@ class FadeSlide extends StatelessWidget {
     super.key,
     required this.child,
     this.index = 0,
-    this.dy = 24,
+    this.dy = 16,
     this.dx = 0,
     this.duration,
-    this.curve = Curves.easeOutCubic,
+    this.curve = Curves.fastOutSlowIn,
   });
 
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
-      duration: duration ?? Duration(milliseconds: 400 + index * 80),
+      duration: duration ?? Duration(milliseconds: 220 + index * 40),
       curve: curve,
       builder: (_, v, w) => Opacity(
         opacity: v,
@@ -69,7 +69,7 @@ class JtScaffold extends StatelessWidget {
               child: Column(
                 children: [
                   FadeSlide(
-                    dy: -16,
+                    dy: -12,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                       child: Row(
@@ -165,8 +165,9 @@ class _JtGoldButtonState extends State<JtGoldButton> {
       },
       onTapCancel: () => setState(() => _pressed = false),
       child: AnimatedScale(
-        scale: _pressed ? 0.96 : 1.0,
-        duration: const Duration(milliseconds: 150),
+        scale: _pressed ? 0.95 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.fastOutSlowIn,
         child: Container(
           height: 52,
           alignment: Alignment.center,
@@ -227,6 +228,7 @@ class JtSelectTile extends StatelessWidget {
         child: SafeArea(
           child: ListView(
             shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
             children: [
               Center(
                 child: Container(
@@ -290,7 +292,9 @@ class JtSelectTile extends StatelessWidget {
                     Text(label, style: const TextStyle(color: JT.muted, fontSize: 11)),
                     const SizedBox(height: 2),
                     Obx(() => AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 250),
+                          duration: const Duration(milliseconds: 200),
+                          switchInCurve: Curves.easeIn,
+                          switchOutCurve: Curves.easeOut,
                           child: Text(
                             value.value,
                             key: ValueKey(value.value),
