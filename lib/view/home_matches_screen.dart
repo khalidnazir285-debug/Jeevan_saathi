@@ -7,11 +7,11 @@ import '../custom_widgets/jt_extra.dart';
 import '../custom_widgets/jt_theme.dart';
 import '../custom_widgets/jt_widgets.dart';
 import 'chat_screen.dart';
+import 'my_profile_screen.dart';
 import 'notifications_screen.dart';
 import 'profile_details_screen.dart';
 import 'received_interests_screen.dart';
 import 'send_interest_screen.dart';
-import 'privacy_security_screen.dart';
 
 class HomeMatchesScreen extends StatelessWidget {
   HomeMatchesScreen({super.key});
@@ -24,7 +24,7 @@ class HomeMatchesScreen extends StatelessWidget {
     if (i == 1) Get.to(() => ReceivedInterestsScreen());
     if (i == 2) Get.to(() => NotificationsScreen());
     if (i == 3) Get.to(() => ChatScreen());
-    if (i == 4) Get.to(() => PrivacySecurityScreen());
+    if (i == 4) Get.to(() => MyProfileScreen());
   }
 
   @override
@@ -46,36 +46,42 @@ class HomeMatchesScreen extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(16, 10, 16, 8),
                       child: Row(
                         children: [
-                          Obx(
-                            () => JtAvatar(
-                              radius: 20,
-                              imageUrl: cProfile.userAvatar.value.isNotEmpty
-                                  ? cProfile.userAvatar.value
-                                  : null,
-                              isFemale: cProfile.gender.value == 'Female',
-                              heroTag: 'user_main_avatar',
+                          GestureDetector(
+                            onTap: () => Get.to(() => MyProfileScreen()),
+                            child: Obx(
+                              () => JtAvatar(
+                                radius: 20,
+                                imageUrl: cProfile.userAvatar.value.isNotEmpty
+                                    ? cProfile.userAvatar.value
+                                    : null,
+                                isFemale: cProfile.gender.value == 'Female',
+                                heroTag: 'user_main_avatar',
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Assalam o Alaikum',
-                                  style: TextStyle(color: JT.muted, fontSize: 11),
-                                ),
-                                Obx(
-                                  () => Text(
-                                    cProfile.fullName.value,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15,
+                            child: GestureDetector(
+                              onTap: () => Get.to(() => MyProfileScreen()),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Assalam o Alaikum',
+                                    style: TextStyle(color: JT.muted, fontSize: 11),
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      cProfile.fullName.value,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           IconButton(
@@ -94,48 +100,57 @@ class HomeMatchesScreen extends StatelessWidget {
                         // Profile complete card
                         FadeSlide(
                           index: 1,
-                          child: JtCard(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: const [
-                                    Icon(Icons.verified_user_outlined, color: JT.gold, size: 18),
-                                    SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        'Profile Complete',
+                          child: GestureDetector(
+                            onTap: () => Get.to(() => MyProfileScreen()),
+                            child: JtCard(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.verified_user_outlined,
+                                        color: JT.gold,
+                                        size: 18,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          'Profile Complete',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        '70%',
                                         style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
+                                          color: JT.gold,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  TweenAnimationBuilder<double>(
+                                    tween: Tween(begin: 0, end: c.profileComplete),
+                                    duration: const Duration(milliseconds: 600),
+                                    curve: Curves.fastOutSlowIn,
+                                    builder: (_, v, _) => ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: LinearProgressIndicator(
+                                        value: v,
+                                        minHeight: 6,
+                                        backgroundColor: Colors.white12,
+                                        valueColor: const AlwaysStoppedAnimation(
+                                          JT.gold,
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      '70%',
-                                      style: TextStyle(
-                                        color: JT.gold,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                TweenAnimationBuilder<double>(
-                                  tween: Tween(begin: 0, end: c.profileComplete),
-                                  duration: const Duration(milliseconds: 600),
-                                  curve: Curves.fastOutSlowIn,
-                                  builder: (_, v, _) => ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: LinearProgressIndicator(
-                                      value: v,
-                                      minHeight: 6,
-                                      backgroundColor: Colors.white12,
-                                      valueColor: const AlwaysStoppedAnimation(JT.gold),
-                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
