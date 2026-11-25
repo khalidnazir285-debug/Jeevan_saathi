@@ -38,9 +38,11 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Calling Ayesha Khan...',
-                style: TextStyle(color: JT.muted, fontSize: 13),
+              Obx(
+                () => Text(
+                  'Calling ${c.activeChatName.value}...',
+                  style: const TextStyle(color: JT.muted, fontSize: 13),
+                ),
               ),
               const SizedBox(height: 24),
               Row(
@@ -186,7 +188,13 @@ class ChatScreen extends StatelessWidget {
                         Stack(
                           alignment: Alignment.bottomRight,
                           children: [
-                            const JtAvatar(radius: 20),
+                            Obx(
+                              () => JtAvatar(
+                                radius: 20,
+                                imageUrl: c.activeChatAvatar.value,
+                                isFemale: c.activeChatIsFemale.value,
+                              ),
+                            ),
                             Container(
                               width: 10,
                               height: 10,
@@ -204,17 +212,19 @@ class ChatScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                children: const [
-                                  Text(
-                                    'Ayesha Khan',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15,
+                                children: [
+                                  Obx(
+                                    () => Text(
+                                      c.activeChatName.value,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 4),
-                                  Icon(Icons.verified, color: JT.gold, size: 14),
+                                  const SizedBox(width: 4),
+                                  const Icon(Icons.verified, color: JT.gold, size: 14),
                                 ],
                               ),
                               Obx(
@@ -391,7 +401,7 @@ class ChatScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemCount: c.quickSuggestions.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 8),
+                      separatorBuilder: (_, _) => const SizedBox(width: 8),
                       itemBuilder: (_, i) {
                         final tag = c.quickSuggestions[i];
                         return ActionChip(

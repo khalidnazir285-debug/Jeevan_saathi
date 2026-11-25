@@ -5,8 +5,19 @@ import '../custom_widgets/jt_theme.dart';
 class InterestModel {
   final String name;
   final String info;
+  final String location;
+  final String avatarUrl;
+  final bool isFemale;
   final RxString status; // pending / accepted / declined
-  InterestModel(this.name, this.info, String s) : status = s.obs;
+
+  InterestModel({
+    required this.name,
+    required this.info,
+    required this.location,
+    required this.avatarUrl,
+    required this.isFemale,
+    required String status,
+  }) : status = status.obs;
 }
 
 class ChatMessage {
@@ -50,16 +61,58 @@ class InterestController extends GetxController {
     );
   }
 
-  // Received interests
+  // Received interests list with dynamic image avatars
   final tab = 0.obs; // 0 Received, 1 Sent, 2 Accepted
   final received = <InterestModel>[
-    InterestModel('Ayesha Khan', '25 yrs • Lahore • MBBS', 'pending'),
-    InterestModel('Sana Malik', '24 yrs • Karachi • BBA', 'pending'),
-    InterestModel('Hira Noor', '26 yrs • Islamabad • Teacher', 'pending'),
+    InterestModel(
+      name: 'Ayesha Khan',
+      info: '25 yrs • MBBS Doctor',
+      location: 'Lahore',
+      avatarUrl: 'assets/images/female.png',
+      isFemale: true,
+      status: 'pending',
+    ),
+    InterestModel(
+      name: 'Sana Malik',
+      info: '24 yrs • BBA Finance',
+      location: 'Karachi',
+      avatarUrl:
+          'https://images.unsplash.com/photo-1517841905240-472988babdf9?fit=crop&w=500&q=80',
+      isFemale: true,
+      status: 'pending',
+    ),
+    InterestModel(
+      name: 'Hira Noor',
+      info: '26 yrs • Lecturer / Teacher',
+      location: 'Islamabad',
+      avatarUrl:
+          'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?fit=crop&w=500&q=80',
+      isFemale: true,
+      status: 'pending',
+    ),
+    InterestModel(
+      name: 'Fatima Ahmed',
+      info: '27 yrs • BDS Dentist',
+      location: 'Lahore',
+      avatarUrl:
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=500&q=80',
+      isFemale: true,
+      status: 'accepted',
+    ),
+    InterestModel(
+      name: 'Muhammad Ali',
+      info: '27 yrs • Software Engineer',
+      location: 'Lahore',
+      avatarUrl: 'assets/images/male.png',
+      isFemale: false,
+      status: 'accepted',
+    ),
   ].obs;
 
   List<InterestModel> get visible {
-    if (tab.value == 2) return received.where((e) => e.status.value == 'accepted').toList();
+    if (tab.value == 2) {
+      return received.where((e) => e.status.value == 'accepted').toList();
+    }
     if (tab.value == 1) return <InterestModel>[];
     return received.where((e) => e.status.value == 'pending').toList();
   }
@@ -68,6 +121,10 @@ class InterestController extends GetxController {
   void decline(InterestModel m) => m.status.value = 'declined';
 
   // Chat
+  final activeChatName = 'Ayesha Khan'.obs;
+  final activeChatAvatar = 'assets/images/female.png'.obs;
+  final activeChatIsFemale = true.obs;
+
   final isTyping = false.obs;
   final chatScrollController = ScrollController();
 
@@ -102,6 +159,12 @@ class InterestController extends GetxController {
     'Aap ki hobbies kya hain?',
     'InshaAllah',
   ];
+
+  void openChatWith(String name, String avatarUrl, bool isFemale) {
+    activeChatName.value = name;
+    activeChatAvatar.value = avatarUrl;
+    activeChatIsFemale.value = isFemale;
+  }
 
   void sendMsgText(String customText) {
     final t = customText.trim();
