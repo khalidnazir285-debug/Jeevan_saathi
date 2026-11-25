@@ -13,7 +13,7 @@ class ProfileController extends GetxController {
   final location = 'Lahore'.obs;
   final countryDialCode = '+92'.obs;
   final countryFlag = '🇵🇰'.obs;
-  final userAvatar = ''.obs;
+  final userAvatar = 'assets/images/male.png'.obs;
 
   // Personal information
   final age = '27'.obs;
@@ -55,12 +55,10 @@ class ProfileController extends GetxController {
     gender.value = g;
     if (g == 'Male') {
       fullName.value = 'Muhammad Ali';
-      userAvatar.value =
-          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=500&q=80';
+      userAvatar.value = 'assets/images/male.png';
     } else {
       fullName.value = 'Ayesha Khan';
-      userAvatar.value =
-          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=500&q=80';
+      userAvatar.value = 'assets/images/female.png';
     }
   }
 

@@ -33,8 +33,7 @@ class HomeController extends GetxController {
       name: 'Ayesha Khan',
       info: '25 yrs • MBBS Doctor',
       tag: 'Lahore',
-      avatarUrl:
-          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=500&q=80',
+      avatarUrl: 'assets/images/female.png',
       isFemale: true,
     ),
     MatchModel(
@@ -85,8 +84,7 @@ class HomeController extends GetxController {
       name: 'Muhammad Ali',
       info: '27 yrs • Software Engineer',
       tag: 'Lahore',
-      avatarUrl:
-          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=500&q=80',
+      avatarUrl: 'assets/images/male.png',
       isFemale: false,
     ),
     MatchModel(
@@ -135,7 +133,6 @@ class HomeController extends GetxController {
     final profileCtrl = Get.put(ProfileController());
     final isUserMale = profileCtrl.gender.value == 'Male';
 
-    // If user is Male, show Female matches. If user is Female, show Male matches.
     final currentList = isUserMale ? femaleMatches : maleMatches;
 
     final f = filters[filterIndex.value];
