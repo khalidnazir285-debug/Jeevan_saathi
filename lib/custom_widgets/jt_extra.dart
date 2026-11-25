@@ -73,30 +73,38 @@ class JtAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget childWidget;
-    final src = imagePath ?? imageUrl;
 
-    if (src != null && src.isNotEmpty) {
-      if (src.startsWith('http')) {
-        childWidget = ClipOval(
-          child: Image.network(
-            src,
-            width: radius * 2,
-            height: radius * 2,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => _defaultIcon(),
-          ),
-        );
-      } else {
-        childWidget = ClipOval(
-          child: Image.asset(
-            src,
-            width: radius * 2,
-            height: radius * 2,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => _defaultIcon(),
-          ),
-        );
-      }
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      childWidget = ClipOval(
+        child: Image.asset(
+          imagePath!,
+          width: radius * 2,
+          height: radius * 2,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) {
+            if (imageUrl != null && imageUrl!.isNotEmpty) {
+              return Image.network(
+                imageUrl!,
+                width: radius * 2,
+                height: radius * 2,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => _defaultIcon(),
+              );
+            }
+            return _defaultIcon();
+          },
+        ),
+      );
+    } else if (imageUrl != null && imageUrl!.isNotEmpty) {
+      childWidget = ClipOval(
+        child: Image.network(
+          imageUrl!,
+          width: radius * 2,
+          height: radius * 2,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => _defaultIcon(),
+        ),
+      );
     } else {
       childWidget = _defaultIcon();
     }

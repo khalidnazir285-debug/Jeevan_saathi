@@ -60,6 +60,8 @@ class GenderSelectionScreen extends StatelessWidget {
                               label: 'Male',
                               icon: Icons.man,
                               imagePath: 'assets/images/male.png',
+                              imageUrl:
+                                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=500&q=80',
                               c: c,
                             ),
                           ),
@@ -72,6 +74,8 @@ class GenderSelectionScreen extends StatelessWidget {
                               label: 'Female',
                               icon: Icons.woman,
                               imagePath: 'assets/images/female.png',
+                              imageUrl:
+                                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=500&q=80',
                               c: c,
                             ),
                           ),
@@ -129,12 +133,14 @@ class _GenderCard extends StatelessWidget {
   final String label;
   final IconData icon;
   final String imagePath;
+  final String imageUrl;
   final ProfileController c;
 
   const _GenderCard({
     required this.label,
     required this.icon,
     required this.imagePath,
+    required this.imageUrl,
     required this.c,
   });
 
@@ -172,6 +178,7 @@ class _GenderCard extends StatelessWidget {
                 JtAvatar(
                   radius: 38,
                   imagePath: imagePath,
+                  imageUrl: imageUrl,
                   isFemale: label == 'Female',
                 ),
                 const SizedBox(height: 12),
