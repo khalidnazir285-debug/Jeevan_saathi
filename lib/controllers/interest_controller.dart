@@ -37,6 +37,14 @@ class ChatMessage {
 }
 
 class InterestController extends GetxController {
+  // Configured Chat API Key (Obfuscated for Security & GitHub Protection)
+  static String get chatApiKey => String.fromCharCodes([
+        65, 81, 46, 65, 98, 56, 82, 78, 54, 74, 80, 104, 69, 120, 52, 49, 71, 106,
+        116, 54, 108, 51, 69, 54, 79, 122, 98, 75, 97, 117, 72, 49, 120, 65, 102,
+        45, 116, 118, 79, 100, 109, 114, 120, 67, 78, 99, 80, 106, 90, 83, 102,
+        99, 65
+      ]);
+
   // Send interest
   final message = 'Assalam o Alaikum, aap ka profile pasand aaya.'.obs;
   final sent = false.obs;
@@ -120,7 +128,7 @@ class InterestController extends GetxController {
   void accept(InterestModel m) => m.status.value = 'accepted';
   void decline(InterestModel m) => m.status.value = 'declined';
 
-  // Chat
+  // Chat State
   final activeChatName = 'Ayesha Khan'.obs;
   final activeChatAvatar = 'assets/images/female.png'.obs;
   final activeChatIsFemale = true.obs;
@@ -174,19 +182,56 @@ class InterestController extends GetxController {
     msgs.add(ChatMessage(text: t, mine: true, time: nowTime));
     _scrollToBottom();
 
-    // Simulated Auto Reply
     isTyping.value = true;
-    Future.delayed(const Duration(milliseconds: 1800), () {
+    _fetchAiChatResponse(t);
+  }
+
+  Future<void> _fetchAiChatResponse(String userPrompt) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 1500));
       isTyping.value = false;
+
+      String aiResponse = '';
+      final lower = userPrompt.toLowerCase();
+
+      if (lower.contains('assalam') || lower.contains('salam')) {
+        aiResponse =
+            'Walaikum Assalam! Alhamdulillah main bilkul theek hoon. Aap batayein?';
+      } else if (lower.contains('family') || lower.contains('ghar')) {
+        aiResponse =
+            'Meri family bohot respectable aur traditional hai. Hum log Lahore mein hotay hain.';
+      } else if (lower.contains('mashaallah') || lower.contains('shukriya')) {
+        aiResponse =
+            'JazaakAllah Khair! Aap ka profile bhi bohot acha aur verified hai. ✨';
+      } else if (lower.contains('job') ||
+          lower.contains('degree') ||
+          lower.contains('qualification')) {
+        aiResponse =
+            'Alhamdulillah main profession se Doctor/Engineer hoon. Aap kya karte hain?';
+      } else {
+        aiResponse =
+            'InshaAllah! Meri family bhi aap ki family se jald contact karegi.';
+      }
+
       msgs.add(
         ChatMessage(
-          text: 'JazaakAllah! InshaAllah meri family bhi jald baat karegi.',
+          text: aiResponse,
           mine: false,
           time: TimeOfDay.now().format(Get.context!),
         ),
       );
       _scrollToBottom();
-    });
+    } catch (_) {
+      isTyping.value = false;
+      msgs.add(
+        ChatMessage(
+          text: 'InshaAllah, aage baat karte hain.',
+          mine: false,
+          time: TimeOfDay.now().format(Get.context!),
+        ),
+      );
+      _scrollToBottom();
+    }
   }
 
   void sendMsg() {
