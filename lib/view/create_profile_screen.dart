@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
 import '../custom_widgets/jt_country_picker.dart';
+import '../custom_widgets/jt_extra.dart';
 import '../custom_widgets/jt_theme.dart';
 import '../custom_widgets/jt_widgets.dart';
 import 'personal_information_screen.dart';
@@ -55,25 +56,23 @@ class CreateProfileScreen extends StatelessWidget {
           child: Stack(
             alignment: Alignment.bottomRight,
             children: [
-              Container(
-                padding: const EdgeInsets.all(3),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: JT.goldGradient,
-                ),
-                child: const CircleAvatar(
-                  radius: 42,
-                  backgroundColor: JT.card,
-                  child: Icon(Icons.person, size: 46, color: JT.gold),
+              Obx(
+                () => JtAvatar(
+                  radius: 46,
+                  imagePath: c.userAvatar.value,
+                  imageUrl: c.gender.value == 'Female'
+                      ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=500&q=80'
+                      : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=500&q=80',
+                  isFemale: c.gender.value == 'Female',
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(6),
                 decoration: const BoxDecoration(
                   color: JT.gold,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.camera_alt, size: 14, color: Colors.black87),
+                child: const Icon(Icons.camera_alt, size: 16, color: Colors.black87),
               ),
             ],
           ),
