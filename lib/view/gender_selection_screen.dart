@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
+import '../custom_widgets/jt_extra.dart';
 import '../custom_widgets/jt_theme.dart';
 import '../custom_widgets/jt_widgets.dart';
 import 'create_profile_screen.dart';
@@ -28,18 +29,24 @@ class GenderSelectionScreen extends StatelessWidget {
                     FadeSlide(
                       child: Column(
                         children: const [
-                          Text("Let's Get",
-                              style: TextStyle(
-                                  fontFamily: 'serif',
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white)),
-                          Text('to Know You',
-                              style: TextStyle(
-                                  fontFamily: 'serif',
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w800,
-                                  color: JT.gold)),
+                          Text(
+                            "Let's Get",
+                            style: TextStyle(
+                              fontFamily: 'serif',
+                              fontSize: 30,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'to Know You',
+                            style: TextStyle(
+                              fontFamily: 'serif',
+                              fontSize: 30,
+                              fontWeight: FontWeight.w800,
+                              color: JT.gold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -48,14 +55,28 @@ class GenderSelectionScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: FadeSlide(
-                              index: 1,
-                              child: _GenderCard(label: 'Male', icon: Icons.man, c: c)),
+                            index: 1,
+                            child: _GenderCard(
+                              label: 'Male',
+                              icon: Icons.man,
+                              imageUrl:
+                                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=500&q=80',
+                              c: c,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 14),
                         Expanded(
                           child: FadeSlide(
-                              index: 2,
-                              child: _GenderCard(label: 'Female', icon: Icons.woman, c: c)),
+                            index: 2,
+                            child: _GenderCard(
+                              label: 'Female',
+                              icon: Icons.woman,
+                              imageUrl:
+                                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=500&q=80',
+                              c: c,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -88,8 +109,10 @@ class GenderSelectionScreen extends StatelessWidget {
                             );
                             return;
                           }
-                          Get.to(() => CreateProfileScreen(),
-                              transition: Transition.rightToLeftWithFade);
+                          Get.to(
+                            () => CreateProfileScreen(),
+                            transition: Transition.rightToLeftWithFade,
+                          );
                         },
                       ),
                     ),
@@ -107,8 +130,15 @@ class GenderSelectionScreen extends StatelessWidget {
 class _GenderCard extends StatelessWidget {
   final String label;
   final IconData icon;
+  final String imageUrl;
   final ProfileController c;
-  const _GenderCard({required this.label, required this.icon, required this.c});
+
+  const _GenderCard({
+    required this.label,
+    required this.icon,
+    required this.imageUrl,
+    required this.c,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -122,27 +152,38 @@ class _GenderCard extends StatelessWidget {
           curve: Curves.easeOutBack,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.symmetric(vertical: 22),
+            padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 8),
             decoration: BoxDecoration(
               color: JT.card,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
-                  color: sel ? JT.gold : JT.cardBorder, width: sel ? 2 : 1),
+                color: sel ? JT.gold : JT.cardBorder,
+                width: sel ? 2 : 1,
+              ),
               boxShadow: sel
-                  ? [BoxShadow(color: JT.gold.withValues(alpha: 0.35), blurRadius: 18)]
+                  ? [
+                      BoxShadow(
+                        color: JT.gold.withValues(alpha: 0.35),
+                        blurRadius: 18,
+                      ),
+                    ]
                   : [],
             ),
             child: Column(
               children: [
-                CircleAvatar(
-                  radius: 36,
-                  backgroundColor: JT.gold.withValues(alpha: 0.15),
-                  child: Icon(icon, size: 42, color: JT.gold),
+                JtAvatar(
+                  radius: 38,
+                  imageUrl: imageUrl,
+                  isFemale: label == 'Female',
                 ),
                 const SizedBox(height: 12),
-                Text(label,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700)),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 250),
