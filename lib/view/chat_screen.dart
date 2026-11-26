@@ -230,8 +230,8 @@ class ChatScreen extends StatelessWidget {
                               Obx(
                                 () => Text(
                                   c.isTyping.value
-                                      ? 'Gemini AI is thinking... ✨'
-                                      : 'Online • Gemini AI Powered',
+                                      ? '${c.activeChatName.value} is typing...'
+                                      : 'Online',
                                   style: TextStyle(
                                     color: c.isTyping.value
                                         ? JT.gold
@@ -247,7 +247,7 @@ class ChatScreen extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          tooltip: 'Clear Chat',
+                          tooltip: 'Reset Conversation',
                           icon: const Icon(Icons.refresh, color: JT.gold, size: 20),
                           onPressed: c.clearChat,
                         ),
@@ -400,7 +400,7 @@ class ChatScreen extends StatelessWidget {
                     ),
                   ),
 
-                  // Gemini Smart Quick Action Chips
+                  // Quick Action Suggestions Chips
                   SizedBox(
                     height: 38,
                     child: ListView.separated(
@@ -443,30 +443,35 @@ class ChatScreen extends StatelessWidget {
                           onPressed: () => _showAttachmentModal(context),
                         ),
                         Expanded(
-                          child: TextField(
-                            controller: c.input,
-                            style: const TextStyle(color: Colors.white),
-                            onSubmitted: (_) => c.sendMsg(),
-                            decoration: InputDecoration(
-                              hintText: 'Ask Gemini AI or send message...',
-                              hintStyle: const TextStyle(color: JT.muted),
-                              filled: true,
-                              fillColor: JT.card,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: const BorderSide(color: JT.cardBorder),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: const BorderSide(color: JT.cardBorder),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: const BorderSide(color: JT.gold),
+                          child: Obx(
+                            () => TextField(
+                              controller: c.input,
+                              style: const TextStyle(color: Colors.white),
+                              onSubmitted: (_) => c.sendMsg(),
+                              decoration: InputDecoration(
+                                hintText:
+                                    'Message ${c.activeChatName.value}...',
+                                hintStyle: const TextStyle(color: JT.muted),
+                                filled: true,
+                                fillColor: JT.card,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide:
+                                      const BorderSide(color: JT.cardBorder),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide:
+                                      const BorderSide(color: JT.cardBorder),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide: const BorderSide(color: JT.gold),
+                                ),
                               ),
                             ),
                           ),

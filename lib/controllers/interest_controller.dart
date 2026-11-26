@@ -132,7 +132,7 @@ class InterestController extends GetxController {
   void accept(InterestModel m) => m.status.value = 'accepted';
   void decline(InterestModel m) => m.status.value = 'declined';
 
-  // Chat State
+  // Real Person Chat State
   final activeChatName = 'Ayesha Khan'.obs;
   final activeChatAvatar = 'assets/images/female.png'.obs;
   final activeChatIsFemale = true.obs;
@@ -142,7 +142,7 @@ class InterestController extends GetxController {
 
   final msgs = <ChatMessage>[
     ChatMessage(
-      text: 'Assalam o Alaikum! ✨ Main Gemini AI Assistant hoon.',
+      text: 'Assalam o Alaikum! Kaise hain aap?',
       mine: false,
       time: '10:01 AM',
     ),
@@ -166,9 +166,9 @@ class InterestController extends GetxController {
   final input = TextEditingController();
 
   final quickSuggestions = const [
-    '✨ Family Details',
-    '✨ Career & Education',
-    '✨ Nikah Expectations',
+    'Family Details',
+    'Career & Education',
+    'Nikah Expectations',
     'MashaAllah 🌸',
   ];
 
@@ -184,6 +184,16 @@ class InterestController extends GetxController {
     activeChatName.value = name;
     activeChatAvatar.value = avatarUrl;
     activeChatIsFemale.value = isFemale;
+
+    msgs.clear();
+    msgs.add(
+      ChatMessage(
+        text:
+            'Assalam o Alaikum! Main $name hoon. Aap ka profile dekha tha, bohot acha laga. Aap batayein kaise hain?',
+        mine: false,
+        time: _formatTime(),
+      ),
+    );
   }
 
   void clearChat() {
@@ -191,7 +201,7 @@ class InterestController extends GetxController {
     msgs.add(
       ChatMessage(
         text:
-            'Assalam o Alaikum! ✨ Main Gemini AI Assistant hoon. Main aap ki rishtay aur profile ke silsilay mein kaise madad kar sakta hoon?',
+            'Assalam o Alaikum! Main ${activeChatName.value} hoon. Aap batayein kaise hain?',
         mine: false,
         time: _formatTime(),
       ),
@@ -211,35 +221,37 @@ class InterestController extends GetxController {
 
   Future<void> _fetchAiChatResponse(String userPrompt) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 600));
+      await Future.delayed(const Duration(milliseconds: 1400));
       isTyping.value = false;
 
       String fullResponse = '';
       final lower = userPrompt.toLowerCase();
+      final personName = activeChatName.value;
 
       if (lower.contains('assalam') || lower.contains('salam')) {
         fullResponse =
-            'Walaikum Assalam! ✨ Alhamdulillah main bilkul theek hoon. Aap batayein, aap ke ghar wale kaise hain?';
+            'Walaikum Assalam! Alhamdulillah main bilkul theek hoon. Aap batayein, aap ke ghar wale kaise hain?';
       } else if (lower.contains('family') || lower.contains('ghar')) {
         fullResponse =
-            '✨ Family Background:\n• Respectable & traditional family from Lahore.\n• Father: Businessman\n• Mother: Housewife\n• Siblings: 2\n\nMeri family hamesha izzat aur deeni aqdaar ko pehli tarjeeh deti hai.';
+            'Meri family bohot respectable aur traditional hai. Abba businessman hain aur ammi housewife hain. Hum log Lahore mein hotay hain.';
       } else if (lower.contains('mashaallah') || lower.contains('shukriya')) {
         fullResponse =
-            'JazaakAllah Khair! ✨ Aap ka profile bhi bohot acha aur verified lag raha hai. Allah Pak aap ke liye asaanian farmaye.';
+            'JazaakAllah Khair! Aap ka profile bhi bohot acha aur verified lag raha hai.';
       } else if (lower.contains('job') ||
           lower.contains('degree') ||
           lower.contains('career') ||
           lower.contains('qualification')) {
-        fullResponse =
-            '✨ Education & Career:\n• Qualification: BS Software Engineering (PU)\n• Profession: Senior Mobile App Developer\n• Career Goal: Tech Startup & Continuous Growth';
+        fullResponse = activeChatIsFemale.value
+            ? 'Alhamdulillah main profession se MBBS Doctor hoon. Aap kya karte hain?'
+            : 'Alhamdulillah main ne BS Software Engineering ki hai aur Senior Developer hoon. Aap kya karte hain?';
       } else if (lower.contains('nikah') ||
           lower.contains('partner') ||
           lower.contains('hobbies')) {
         fullResponse =
-            '✨ Partner Expectations:\n• Islamic values, mutual respect, understanding, aur family involvement.\n• Hobbies: Book reading, travel, & tech innovation.';
+            'Main ek deendar, samajhdar aur caring life partner dhoondh rahi hoon jo family ki izzat kare. Meri hobbies reading aur travel hain.';
       } else {
         fullResponse =
-            '✨ InshaAllah! Meri family bhi aap ki family se jald contact karegi aur baat aage badhayegi.';
+            'InshaAllah! Meri family bhi aap ki family se jald contact karegi aur baat aage badhayegi.';
       }
 
       final aiMsgIndex = msgs.length;
@@ -252,7 +264,7 @@ class InterestController extends GetxController {
       );
 
       for (int i = 1; i <= fullResponse.length; i++) {
-        await Future.delayed(const Duration(milliseconds: 16));
+        await Future.delayed(const Duration(milliseconds: 14));
         msgs[aiMsgIndex] = ChatMessage(
           text: fullResponse.substring(0, i),
           mine: false,
