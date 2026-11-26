@@ -142,7 +142,7 @@ class InterestController extends GetxController {
 
   final msgs = <ChatMessage>[
     ChatMessage(
-      text: 'Assalam o Alaikum! Kaise hain aap?',
+      text: 'Assalam o Alaikum! ✨ Main Gemini AI Assistant hoon.',
       mine: false,
       time: '10:01 AM',
     ),
@@ -166,10 +166,10 @@ class InterestController extends GetxController {
   final input = TextEditingController();
 
   final quickSuggestions = const [
+    '✨ Family Details',
+    '✨ Career & Education',
+    '✨ Nikah Expectations',
     'MashaAllah 🌸',
-    'Family se kab milna hai?',
-    'Aap ki hobbies kya hain?',
-    'InshaAllah',
   ];
 
   String _formatTime() {
@@ -186,6 +186,18 @@ class InterestController extends GetxController {
     activeChatIsFemale.value = isFemale;
   }
 
+  void clearChat() {
+    msgs.clear();
+    msgs.add(
+      ChatMessage(
+        text:
+            'Assalam o Alaikum! ✨ Main Gemini AI Assistant hoon. Main aap ki rishtay aur profile ke silsilay mein kaise madad kar sakta hoon?',
+        mine: false,
+        time: _formatTime(),
+      ),
+    );
+  }
+
   void sendMsgText(String customText) {
     final t = customText.trim();
     if (t.isEmpty) return;
@@ -199,39 +211,55 @@ class InterestController extends GetxController {
 
   Future<void> _fetchAiChatResponse(String userPrompt) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 1500));
+      await Future.delayed(const Duration(milliseconds: 600));
       isTyping.value = false;
 
-      String aiResponse = '';
+      String fullResponse = '';
       final lower = userPrompt.toLowerCase();
 
       if (lower.contains('assalam') || lower.contains('salam')) {
-        aiResponse =
-            'Walaikum Assalam! Alhamdulillah main bilkul theek hoon. Aap batayein?';
+        fullResponse =
+            'Walaikum Assalam! ✨ Alhamdulillah main bilkul theek hoon. Aap batayein, aap ke ghar wale kaise hain?';
       } else if (lower.contains('family') || lower.contains('ghar')) {
-        aiResponse =
-            'Meri family bohot respectable aur traditional hai. Hum log Lahore mein hotay hain.';
+        fullResponse =
+            '✨ Family Background:\n• Respectable & traditional family from Lahore.\n• Father: Businessman\n• Mother: Housewife\n• Siblings: 2\n\nMeri family hamesha izzat aur deeni aqdaar ko pehli tarjeeh deti hai.';
       } else if (lower.contains('mashaallah') || lower.contains('shukriya')) {
-        aiResponse =
-            'JazaakAllah Khair! Aap ka profile bhi bohot acha aur verified hai. ✨';
+        fullResponse =
+            'JazaakAllah Khair! ✨ Aap ka profile bhi bohot acha aur verified lag raha hai. Allah Pak aap ke liye asaanian farmaye.';
       } else if (lower.contains('job') ||
           lower.contains('degree') ||
+          lower.contains('career') ||
           lower.contains('qualification')) {
-        aiResponse =
-            'Alhamdulillah main profession se Doctor/Engineer hoon. Aap kya karte hain?';
+        fullResponse =
+            '✨ Education & Career:\n• Qualification: BS Software Engineering (PU)\n• Profession: Senior Mobile App Developer\n• Career Goal: Tech Startup & Continuous Growth';
+      } else if (lower.contains('nikah') ||
+          lower.contains('partner') ||
+          lower.contains('hobbies')) {
+        fullResponse =
+            '✨ Partner Expectations:\n• Islamic values, mutual respect, understanding, aur family involvement.\n• Hobbies: Book reading, travel, & tech innovation.';
       } else {
-        aiResponse =
-            'InshaAllah! Meri family bhi aap ki family se jald contact karegi.';
+        fullResponse =
+            '✨ InshaAllah! Meri family bhi aap ki family se jald contact karegi aur baat aage badhayegi.';
       }
 
+      final aiMsgIndex = msgs.length;
       msgs.add(
         ChatMessage(
-          text: aiResponse,
+          text: '',
           mine: false,
           time: _formatTime(),
         ),
       );
-      _scrollToBottom();
+
+      for (int i = 1; i <= fullResponse.length; i++) {
+        await Future.delayed(const Duration(milliseconds: 16));
+        msgs[aiMsgIndex] = ChatMessage(
+          text: fullResponse.substring(0, i),
+          mine: false,
+          time: _formatTime(),
+        );
+        _scrollToBottom();
+      }
     } catch (_) {
       isTyping.value = false;
       msgs.add(
@@ -269,7 +297,7 @@ class InterestController extends GetxController {
       if (chatScrollController.hasClients) {
         chatScrollController.animateTo(
           chatScrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
         );
       }

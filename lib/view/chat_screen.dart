@@ -229,7 +229,9 @@ class ChatScreen extends StatelessWidget {
                               ),
                               Obx(
                                 () => Text(
-                                  c.isTyping.value ? 'typing...' : 'Online',
+                                  c.isTyping.value
+                                      ? 'Gemini AI is thinking... ✨'
+                                      : 'Online • Gemini AI Powered',
                                   style: TextStyle(
                                     color: c.isTyping.value
                                         ? JT.gold
@@ -243,6 +245,11 @@ class ChatScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                        ),
+                        IconButton(
+                          tooltip: 'Clear Chat',
+                          icon: const Icon(Icons.refresh, color: JT.gold, size: 20),
+                          onPressed: c.clearChat,
                         ),
                         IconButton(
                           icon: const Icon(Icons.call, color: JT.gold, size: 20),
@@ -287,7 +294,7 @@ class ChatScreen extends StatelessWidget {
                               child: Container(
                                 constraints: BoxConstraints(
                                   maxWidth:
-                                      MediaQuery.of(context).size.width * 0.76,
+                                      MediaQuery.of(context).size.width * 0.78,
                                 ),
                                 margin: const EdgeInsets.only(bottom: 12),
                                 padding: const EdgeInsets.symmetric(
@@ -351,7 +358,7 @@ class ChatScreen extends StatelessWidget {
                                         m.text,
                                         style: TextStyle(
                                           fontSize: 14,
-                                          height: 1.35,
+                                          height: 1.4,
                                           color: m.mine
                                               ? const Color(0xFF1B2A20)
                                               : Colors.white,
@@ -393,7 +400,7 @@ class ChatScreen extends StatelessWidget {
                     ),
                   ),
 
-                  // Quick Suggestion Chips
+                  // Gemini Smart Quick Action Chips
                   SizedBox(
                     height: 38,
                     child: ListView.separated(
@@ -441,7 +448,7 @@ class ChatScreen extends StatelessWidget {
                             style: const TextStyle(color: Colors.white),
                             onSubmitted: (_) => c.sendMsg(),
                             decoration: InputDecoration(
-                              hintText: 'Message likhein...',
+                              hintText: 'Ask Gemini AI or send message...',
                               hintStyle: const TextStyle(color: JT.muted),
                               filled: true,
                               fillColor: JT.card,
