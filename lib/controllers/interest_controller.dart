@@ -172,6 +172,14 @@ class InterestController extends GetxController {
     'InshaAllah',
   ];
 
+  String _formatTime() {
+    final now = DateTime.now();
+    final hour = now.hour > 12 ? now.hour - 12 : (now.hour == 0 ? 12 : now.hour);
+    final minute = now.minute.toString().padLeft(2, '0');
+    final period = now.hour >= 12 ? 'PM' : 'AM';
+    return '$hour:$minute $period';
+  }
+
   void openChatWith(String name, String avatarUrl, bool isFemale) {
     activeChatName.value = name;
     activeChatAvatar.value = avatarUrl;
@@ -182,8 +190,7 @@ class InterestController extends GetxController {
     final t = customText.trim();
     if (t.isEmpty) return;
 
-    final nowTime = TimeOfDay.now().format(Get.context!);
-    msgs.add(ChatMessage(text: t, mine: true, time: nowTime));
+    msgs.add(ChatMessage(text: t, mine: true, time: _formatTime()));
     _scrollToBottom();
 
     isTyping.value = true;
@@ -221,7 +228,7 @@ class InterestController extends GetxController {
         ChatMessage(
           text: aiResponse,
           mine: false,
-          time: TimeOfDay.now().format(Get.context!),
+          time: _formatTime(),
         ),
       );
       _scrollToBottom();
@@ -231,7 +238,7 @@ class InterestController extends GetxController {
         ChatMessage(
           text: 'InshaAllah, aage baat karte hain.',
           mine: false,
-          time: TimeOfDay.now().format(Get.context!),
+          time: _formatTime(),
         ),
       );
       _scrollToBottom();
@@ -246,12 +253,11 @@ class InterestController extends GetxController {
   }
 
   void sendAudioMsg() {
-    final nowTime = TimeOfDay.now().format(Get.context!);
     msgs.add(
       ChatMessage(
         text: 'Voice Message (0:15)',
         mine: true,
-        time: nowTime,
+        time: _formatTime(),
         isAudio: true,
       ),
     );
