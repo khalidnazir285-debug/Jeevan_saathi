@@ -221,37 +221,65 @@ class InterestController extends GetxController {
 
   Future<void> _fetchAiChatResponse(String userPrompt) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 1400));
+      await Future.delayed(const Duration(milliseconds: 1200));
       isTyping.value = false;
 
       String fullResponse = '';
-      final lower = userPrompt.toLowerCase();
-      final personName = activeChatName.value;
+      final lower = userPrompt.toLowerCase().trim();
+      final isFemale = activeChatIsFemale.value;
 
-      if (lower.contains('assalam') || lower.contains('salam')) {
+      if (lower.contains('assalam') ||
+          lower.contains('salam') ||
+          lower.contains('hey') ||
+          lower.contains('hello') ||
+          lower.contains('hi')) {
         fullResponse =
-            'Walaikum Assalam! Alhamdulillah main bilkul theek hoon. Aap batayein, aap ke ghar wale kaise hain?';
-      } else if (lower.contains('family') || lower.contains('ghar')) {
+            'Walaikum Assalam! Alhamdulillah main bilkul theek hoon. Aap batayein, aap ka din kaisa guzra?';
+      } else if (lower.contains('family') ||
+          lower.contains('ghar') ||
+          lower.contains('parents') ||
+          lower.contains('abba') ||
+          lower.contains('ammi')) {
         fullResponse =
-            'Meri family bohot respectable aur traditional hai. Abba businessman hain aur ammi housewife hain. Hum log Lahore mein hotay hain.';
-      } else if (lower.contains('mashaallah') || lower.contains('shukriya')) {
+            'Meri family bohot respectable aur traditional hai. Abba businessman hain aur ammi housewife hain. Hum log family approval ke sath rishtay ko aage badhana chahte hain.';
+      } else if (lower.contains('mashaallah') ||
+          lower.contains('shukriya') ||
+          lower.contains('thanks') ||
+          lower.contains('nice') ||
+          lower.contains('good')) {
         fullResponse =
-            'JazaakAllah Khair! Aap ka profile bhi bohot acha aur verified lag raha hai.';
+            'JazaakAllah Khair! Aap ki baatein bohot achi aur samajhdar hain.';
       } else if (lower.contains('job') ||
           lower.contains('degree') ||
           lower.contains('career') ||
-          lower.contains('qualification')) {
-        fullResponse = activeChatIsFemale.value
-            ? 'Alhamdulillah main profession se MBBS Doctor hoon. Aap kya karte hain?'
-            : 'Alhamdulillah main ne BS Software Engineering ki hai aur Senior Developer hoon. Aap kya karte hain?';
+          lower.contains('qualification') ||
+          lower.contains('work') ||
+          lower.contains('study')) {
+        fullResponse = isFemale
+            ? 'Alhamdulillah main ne MBBS ki hai aur hospital mein Doctor hoon. Aap ki education aur job ke baare mein batayein?'
+            : 'Alhamdulillah main ne BS Software Engineering ki hai aur Senior Developer hoon. Aap ki career goals kya hain?';
+      } else if (lower.contains('city') ||
+          lower.contains('location') ||
+          lower.contains('rehte') ||
+          lower.contains('kahan')) {
+        fullResponse =
+            'Main Lahore mein rehti hoon. Aap kis city se hain aur aap ki family kahan rehti hai?';
       } else if (lower.contains('nikah') ||
           lower.contains('partner') ||
-          lower.contains('hobbies')) {
+          lower.contains('hobbies') ||
+          lower.contains('like') ||
+          lower.contains('pasand')) {
         fullResponse =
-            'Main ek deendar, samajhdar aur caring life partner dhoondh rahi hoon jo family ki izzat kare. Meri hobbies reading aur travel hain.';
+            'Main ek deendar, honest aur caring life partner chahti hoon jo family ki izzat kare. Meri hobbies reading aur travel hain.';
+      } else if (lower.contains('free') ||
+          lower.contains('meet') ||
+          lower.contains('milna') ||
+          lower.contains('call')) {
+        fullResponse =
+            'InshaAllah pehle hamari families aapas mein baat kar lein, phir aage ka process final hoga.';
       } else {
         fullResponse =
-            'InshaAllah! Meri family bhi aap ki family se jald contact karegi aur baat aage badhayegi.';
+            'Aap ki baat samajh aayi! InshaAllah main apni family se yeh share karungi aur aage baat karenge.';
       }
 
       final aiMsgIndex = msgs.length;
