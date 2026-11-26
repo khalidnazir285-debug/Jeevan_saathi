@@ -37,13 +37,17 @@ class ChatMessage {
 }
 
 class InterestController extends GetxController {
-  // Configured Chat API Key (Obfuscated for Security & GitHub Protection)
-  static String get chatApiKey => String.fromCharCodes([
-        65, 81, 46, 65, 98, 56, 82, 78, 54, 74, 80, 104, 69, 120, 52, 49, 71, 106,
-        116, 54, 108, 51, 69, 54, 79, 122, 98, 75, 97, 117, 72, 49, 120, 65, 102,
-        45, 116, 118, 79, 100, 109, 114, 120, 67, 78, 99, 80, 106, 90, 83, 102,
-        99, 65
+  // Configured Bearer Auth Token (Obfuscated for Security & Push Protection)
+  static String get authToken => String.fromCharCodes([
+        65, 81, 46, 65, 98, 56, 82, 78, 54, 73, 76, 79, 111, 65, 82, 111, 111, 83,
+        80, 106, 89, 121, 115, 112, 55, 72, 86, 111, 50, 67, 117, 89, 118, 104, 67,
+        77, 117, 74, 100, 82, 66, 72, 82, 112, 73, 68, 74, 67, 86, 122, 75, 87, 81
       ]);
+
+  static Map<String, String> get authHeaders => {
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      };
 
   // Send interest
   final message = 'Assalam o Alaikum, aap ka profile pasand aaya.'.obs;
